@@ -7,8 +7,8 @@ import (
 )
 
 type SearchResult struct {
-	Index  int
-	Number int
+	Index  int `json:"index"`
+	Number int `json:"number"`
 }
 
 func FindIndexOrClosest(numbers []int, target int) (SearchResult, error) {
