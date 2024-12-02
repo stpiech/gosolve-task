@@ -2,10 +2,17 @@ package loader
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 )
+
+type Config struct {
+	Port     int    `json:"port"`
+	LogLevel string `json:"logLevel"`
+}
 
 func FileToSlice(filePath string) ([]int, error) {
 	file, err := os.Open(filePath)
@@ -34,4 +41,28 @@ func FileToSlice(filePath string) ([]int, error) {
 	}
 
 	return numbers, nil
+}
+
+func LoadConfig(configPath string) (Config, error) {
+	file, err := os.Open(configPath)
+
+	if err != nil {
+		return Config{}, nil
+	}
+
+	byteValue, err := io.ReadAll(file)
+
+	if err != nil {
+		return Config{}, nil
+	}
+
+	var config Config
+
+	err = json.Unmarshal(byteValue, &config)
+
+	if err != nil {
+		return Config{}, nil
+	}
+
+	return config, nil
 }

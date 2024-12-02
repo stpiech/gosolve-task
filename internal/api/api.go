@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -16,7 +17,7 @@ type httpError struct {
 	code    int
 }
 
-func RegisterSearchValueEndpoint(values []int) error {
+func RegisterSearchValueEndpoint(values []int, port int) error {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
@@ -33,7 +34,7 @@ func RegisterSearchValueEndpoint(values []int) error {
 		w.Write(responseJson)
 	})
 
-	http.ListenAndServe(":3001", r)
+	http.ListenAndServe(fmt.Sprintf(":%d", port), r)
 
 	return nil
 }
