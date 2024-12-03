@@ -22,6 +22,7 @@ func RegisterSearchValueEndpoint(values []int, port int) error {
 	r.Use(LoggerMiddleware)
 
 	r.Get("/endpoint/{value}", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		value := chi.URLParam(r, "value")
 
 		responseJson, err := searchValueResponse(value, values)
@@ -32,7 +33,6 @@ func RegisterSearchValueEndpoint(values []int, port int) error {
 			return
 		}
 
-		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Write(responseJson)
 	})
 
