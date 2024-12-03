@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	"github.com/stpiech/gosolve-task/internal/logger"
 	"github.com/stpiech/gosolve-task/internal/search"
 )
 
@@ -19,7 +19,7 @@ type httpError struct {
 
 func RegisterSearchValueEndpoint(values []int, port int) error {
 	r := chi.NewRouter()
-	r.Use(middleware.Logger)
+	r.Use(LoggerMiddleware)
 
 	r.Get("/endpoint/{value}", func(w http.ResponseWriter, r *http.Request) {
 		value := chi.URLParam(r, "value")
@@ -27,6 +27,7 @@ func RegisterSearchValueEndpoint(values []int, port int) error {
 		responseJson, err := searchValueResponse(value, values)
 
 		if err != (httpError{}) {
+			logger.ErrorLogger(err.message)
 			http.Error(w, err.message, err.code)
 			return
 		}
