@@ -35,7 +35,12 @@ func RegisterSearchValueEndpoint(values []int, port int) error {
 		w.Write(responseJson)
 	})
 
-	http.ListenAndServe(fmt.Sprintf(":%d", port), r)
+	logger.InfoLogger(fmt.Sprintf("Server is starting at port %d", port))
+	err := http.ListenAndServe(fmt.Sprintf(":%d", port), r)
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

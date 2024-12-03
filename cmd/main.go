@@ -26,4 +26,8 @@ func main() {
 	}
 
 	err = api.RegisterSearchValueEndpoint(values, config.Port)
+
+	if err != nil {
+		panic(err)
+	}
 }

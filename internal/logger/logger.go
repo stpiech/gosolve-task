@@ -13,19 +13,19 @@ var debugLogger = log.New(os.Stdout, "[DEBUG] ", log.LstdFlags)
 var errorLogger = log.New(os.Stdout, "[ERROR] ", log.LstdFlags)
 
 var logLevelMap = map[string]int{
-	"Info":  2,
-	"Debug": 1,
 	"Error": 0,
+	"Info":  1,
+	"Debug": 2,
 }
 
 func InfoLogger(message string) {
-	if LogLevel == 2 {
+	if LogLevel >= 1 {
 		infoLogger.Println(message)
 	}
 }
 
 func DebugLogger(message string) {
-	if LogLevel >= 1 {
+	if LogLevel == 2 {
 		debugLogger.Println(message)
 	}
 }
