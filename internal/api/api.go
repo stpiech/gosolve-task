@@ -32,6 +32,7 @@ func RegisterSearchValueEndpoint(values []int, port int) error {
 			return
 		}
 
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Write(responseJson)
 	})
 
